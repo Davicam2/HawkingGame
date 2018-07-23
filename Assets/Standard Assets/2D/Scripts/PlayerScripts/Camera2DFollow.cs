@@ -16,7 +16,7 @@ namespace UnityStandardAssets._2D
         private Vector3 m_CurrentVelocity;
         private Vector3 m_LookAheadPos;
 
-        //========================================================================================//
+        //========================================================================================\\
         private void Start()
         {
             m_LastTargetPosition = target.position;
@@ -26,10 +26,10 @@ namespace UnityStandardAssets._2D
         //========================================================================================//
 
 
-        //========================================================================================//
+        //========================================================================================\\
         private void Update()
         {
-            //-----------------------------------------------------------------------------------------//
+            //-----------------------------------------------------------------------------------------\\
             if (target != null)
             {
                 // only update lookahead pos if accelerating or changed direction
@@ -37,7 +37,7 @@ namespace UnityStandardAssets._2D
 
                 bool updateLookAheadTarget = Mathf.Abs(xMoveDelta) > lookAheadMoveThreshold;
 
-                //-----------------------------------------------------------------------------------------//
+                //-----------------------------------------------------------------------------------------\\
                 if (updateLookAheadTarget)
                 {
                     m_LookAheadPos = lookAheadFactor * Vector3.right * Mathf.Sign(xMoveDelta);

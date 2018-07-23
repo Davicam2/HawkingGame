@@ -58,7 +58,7 @@ namespace UnityStandardAssets._2D
                 Destroy(gameObject);
 
             if (bh_Explode)
-            {
+            {                             
                 bh_ExplodeTimer -= Time.deltaTime;
                 if(bh_ExplodeTimer <= 0)
                 {
@@ -74,7 +74,18 @@ namespace UnityStandardAssets._2D
         /// </summary>
         /// <param name="collision"></param>
         private void OnTriggerStay2D(Collider2D collision)
+        {            
+            BlackHoleDestroy(collision);
+        }
+        //========================================================================================//
+
+        void BlackHoleDestroy(Collider2D collision)
         {
+            if(collision == null)
+            {
+                Destroy(gameObject);
+                return;
+            }
             if (!collision.isTrigger && collision.gameObject.GetComponent<Rigidbody2D>())
             {
                 Debug.Log("colliding with = " + collision.gameObject.name);
@@ -98,19 +109,19 @@ namespace UnityStandardAssets._2D
                 {
                     Debug.Log("Blowing Up = " + collision.gameObject.name);
                     bh_ForeignBody = collision.GetComponent<Rigidbody2D>();
-                    bh_ForeignBody.AddForce(-calculate.DirectionToMe(bh_BlackHoleBody, collision).normalized * bh_PushForce * bh_ForeignBody.mass);
+                    bh_ForeignBody.AddForce(-calculate.BackAzimuth(bh_BlackHoleBody, collision).normalized * bh_PushForce * bh_ForeignBody.mass);
 
-                    Destroy(gameObject);                    
+                    Destroy(gameObject);
                 }
-                else if (bh_Explode )
+                else if (bh_Explode)
                 {
                     Destroy(gameObject);
                 }
                 //-----------------------------------------------------------------------------------------//
             }
+            
+                
         }
-        //========================================================================================//
-
 
         //========================================================================================\\
         /// <summary>
@@ -120,7 +131,7 @@ namespace UnityStandardAssets._2D
         void PullIn(Collider2D collision)
         {                        
             bh_ForeignBody = collision.GetComponent<Rigidbody2D>();            
-            bh_ForeignBody.AddForce(calculate.DirectionToMe(bh_BlackHoleBody, collision).normalized * 
+            bh_ForeignBody.AddForce(calculate.BackAzimuth(bh_BlackHoleBody, collision).normalized * 
                                                             calculate.MassBasedPull(bh_ForeignBody.mass) );            
         }
         //========================================================================================//

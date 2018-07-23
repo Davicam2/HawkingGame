@@ -24,7 +24,7 @@ namespace UnityStandardAssets._2D
         private Animator cp_Anim;            // Reference to the player's animator component.
         private Rigidbody2D cp_Rigidbody2D;  // Attaches phisics interactions to the object.
         private bool cp_FacingRight = true;  // For determining which way the player is currently facing.str
-        private PhysicsTools cp_PhysicsCannon;
+        private ToolBelt cp_PhysicsTools;
         private string cp_Name = "Player Character";
         private CircleCollider2D cp_Feet;
 
@@ -43,7 +43,7 @@ namespace UnityStandardAssets._2D
             cp_CeilingCheck = transform.Find("CeilingCheck");
             cp_Anim = GetComponent<Animator>();
             cp_Rigidbody2D = GetComponent<Rigidbody2D>();
-            cp_PhysicsCannon = GetComponent<PhysicsTools>();
+            cp_PhysicsTools = GetComponent<ToolBelt>();
             cp_Feet = GetComponent<CircleCollider2D>();
             name = cp_Name;
             cp_IsAlive = true;                        
@@ -82,14 +82,14 @@ namespace UnityStandardAssets._2D
         {                                                           
             if (m_shoot)
             {
-                cp_PhysicsCannon.UpdateToolBelt(usedTool);
+                cp_PhysicsTools.ChangeCurrentTool(usedTool);
                 //TODO: have general check to see what state is equipt to player.
-                cp_PhysicsCannon.Use( cursorPosition, cp_Rigidbody2D);                
+                cp_PhysicsTools.Use( cursorPosition, cp_Rigidbody2D );                
             }
             if (m_2Shoot)
             {
-                cp_PhysicsCannon.UpdateToolBelt(usedTool);
-                cp_PhysicsCannon.SecondaryUse();
+                cp_PhysicsTools.ChangeCurrentTool(usedTool);
+                cp_PhysicsTools.SecondaryUse();
             }
         }
         //=======================================================================================//

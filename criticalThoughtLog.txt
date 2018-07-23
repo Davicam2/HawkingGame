@@ -1,0 +1,163 @@
+﻿IMPLEMENTATION DIFFICULTY: SECONDARY FIRE
+{
+	To decide how the secondary fire will work complexity vs generality must be considered.
+	if(General useage)
+	{
+		-Easily implemented at the player level, more difficulty at the object being used level.
+		-Emphasizes encapsulation, the bullet/tool knows what it should do, while the player would just be asking it
+			to do whatever its secondary fire was.
+		-could limit functionality
+			case(explode black hole)
+				each black hole can explode;
+				each black hole disipates naturally;
+				the player doesnt know when each one destroys itself;
+				a log of black holes must be kept by the player for secondary fire;
+				if secondary fire function could be implemented on the player the queue is easy to manage;
+				if it is implemented on the black hole, the queue is more difficult to maintain.
+				player still needs to know what tool is being innitiatied;
+				ok i know what im doing now;	
+	}
+	SOLUTION: PLAYER KNOWS TOOL, OBJECT KNOWS FUNCTION
+	{
+		the player knows what tool is being used, i.e. which weapon is fired upon firing the secondary function can be called
+			on the bullet or tool that is used and the player can keep track of activations.	
+	}
+}
+
+IMPLEMENTATION DIFFICULTY: BALANCING PHYSICS
+{
+	
+	To allow the users an experience that feels as real and ergonomic as possible balancing the physical interactions 
+		of the game is paramount.
+		if(true physics)
+		{
+			[CONS]
+			Could add a great deal of complexity and additional development cycles.
+			Could render certain systems unuseable under the same logic, i.e. little black holes might give off to much graviton pull.
+			[PROS]
+			Could simplify the balancing from trial and error to plug and play, and gives me a great deal of insight
+				into the physics engine of unity.
+		}
+}
+
+
+IMPLEMENTATION DIFFICULTY: 2D EXPLOSION HANDLING
+{
+	To explode an object must know who and where the objects are.
+	while(objects in blast radius)
+	{
+		need to know who and where they are.
+		must selectivly repulse objects.
+		needs to push them less the further they are away so i need to have a function that scales the blast force based on distance.
+		must push all objects that require pushing.
+	}
+
+
+}
+
+IMPLEMENTATION DIFFICULTY: ENEMY AI
+{
+	if(Dumb Bot)
+	{
+		ai is simplistic just follow and touch tactics.
+		must detect edge of platforms.
+		must follow player, depending on enemy, should only follow if on ground, will use circle cast for this check. 
+	
+	}
+
+
+}
+
+IMPLEMENTATION DIFFICULTY: LIMIT BLACKHOLE INSTANTIATION DISTANCE
+{
+	As it might be hard to control a players abilities in game if they could make these objects at any place on the screen
+		limiting the distance in which they can create them became an appealing option vs balancing the game with the former
+		ability.
+
+	if(instantiate distance == infinity)
+	{
+		balancing obsticals becomes nightmare.
+		could instantiate on top of enemies making it impossible to kill player.	
+	}
+	if(enemies immune to gravity pull)
+	{
+		could be interesting dynamic, would have to integrate into story for explination.	
+	}
+}
+
+
+IMPLEMENTATION DIFFICULTY: PROGRESSION TO FIRE
+{
+	For the player to use the tools given to him/her to navigate the game world the set up of how these fires would be implemented 
+		went through some development stages.
+
+		while(innitial implementation)//good for imediate testing.
+		{
+			-> player click
+				-comp recieves command.
+			-> Platformer2DUserControl
+				-listens for mouse input, tells PlatformerCharacter2D about event
+			-> PlatformerCharacter2D
+				-sends (name of obj, cursor position, player position) to PhysicsTools.Use()
+			-> PhysicsTools
+				-has case statement based on name of object to be instantiated or used.
+				-dictates all physics and use relative to player
+			-> obj to be used
+				-here the object desired has its own properties that it exicutes based on being enabled
+		}
+
+		while(system improve phase 1)//shortcoming identified with PhysicsTools class becoming large and complex
+		{
+			[problem]
+				After implementation of two tool systems class begins to become unduely cluttered
+			[proposedSolution]
+				Create classes for each tool system.
+
+			-theoretically this will make Physicstools.cs act as a tool belt, or object that allows us to use one of multiple 
+				tools at any given time.
+
+			[ToDos]
+			-prior to click player will have tool equiped
+			-> left click tells tool belt to send left click to tool equiped
+			-> tool equiped runs its logic and executes its function.
+
+			-player needs an equiped tool change event.
+			-> grahpics animations for the weapon exchange will go here
+		}
+
+}
+
+IMPLEMENTATION DIFFICULTY: PLAYER TOOL NAMING CONVENTIONS
+{
+	[PROBLEM]
+		How the player equipts different tools to interact with the game is dictated by strings associated with the object, this is for two reasons:
+			1- its easy and familiar.
+			2- we can do many things with strings to scale the project realitivaly easily.
+
+		As the system becomes more complex, i am seeing that i would like a single repository for all string variables so that i can:
+			1- Easily and consistantly call/mutate the strings and i dont have... raw? strings floating around the code everywhere.
+			2- create consistancy between all the different systems in the game and make it easier moving forward to organize data.
+
+	[ProposedSolution]
+		Create a class that gets called by the other systems in the game and allows consistancy in naming.
+	
+
+
+}
+
+IMPLEMENTATION DIFFICULTY: MOLECULE CONSTANT VELOCITY
+{
+	[PROBLEM]
+		A massles particle has constant velocity, it travels at this velocity always. Yet they are affected by gravity so their paths can change but the
+		magnitude of the vectors does not reduce.
+			1-the particle can change direction.
+			2-the particle must travel the same distance per frame.
+			
+	[SOLVED]
+		In two dimensions the speed of an object is simulated by the difference between two sets of coordinates, this vector dictates the direction 
+		and magnitude of travel. So what i needed to happen is the direction of the line to change, but never the total difference between them.
+			1-Take the target coordinate point.
+			2-Normalize the vector, so essentially its just a direction.
+			3-multiply these normals by a constant magnitude.
+		In this way you get a direction fed by the physics interaction, but a constant velocity.
+}

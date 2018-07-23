@@ -11,7 +11,7 @@ namespace UnityStandardAssets._2D
         public string SpatialModulator
         {            
             get { return s_SpatialModulator; }
-            set { s_SpatialModulator = value;  }
+            //set { s_SpatialModulator = value;  }
         }
 
 

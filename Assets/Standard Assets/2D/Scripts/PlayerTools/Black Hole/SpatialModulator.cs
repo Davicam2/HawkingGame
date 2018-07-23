@@ -7,12 +7,14 @@ namespace UnityStandardAssets._2D
     public class SpatialModulator : MonoBehaviour
     {
         Calculations calculate = new Calculations();
+
         #region BlackHole Aspects             
         Queue<GameObject> sm_BlackHolesAlive = new Queue<GameObject>();
         Vector2 sm_Instantiate;
-        float sm_InstantiateRadius = 5;        
-        [SerializeField] int sm_BlackHoleCapacity = 2;
+        [SerializeField] float sm_InstantiateRadius = 5; //distance from player blackholes can be placed
+        [SerializeField] int sm_BlackHoleCapacity = 2; //amount of black holes that can be alive at once
         #endregion
+
         private void Awake()
         {
             //calculate = gameObject.AddComponent(typeof(Calculations)) as Calculations;
@@ -33,7 +35,9 @@ namespace UnityStandardAssets._2D
         {
 
             GameObject _projectile;
-            Quaternion _rotation = calculate.Rotation(direction.normalized.x, direction.normalized.y);
+            Quaternion _rotation = calculate.ObjectRotation(direction.normalized.x, direction.normalized.y);
+
+            ///limits the area a black hole can be instantiated.///
             //-----------------------------------------------------------------------------------------\\
             if (Mathf.Abs(direction.x) >= sm_InstantiateRadius ||
                        Mathf.Abs(direction.y) >= sm_InstantiateRadius)
@@ -88,17 +92,17 @@ namespace UnityStandardAssets._2D
         /// <summary>
         /// deque's any null values stored in a queue and returns(GameObjects)
         /// </summary>
-        /// <param name="obj"></param>
-        private void CleanQueue(Queue<GameObject> obj)
+        /// <param name="objQueue"></param>
+        private void CleanQueue(Queue<GameObject> objQueue)
         {
             //-----------------------------------------------------------------------------------------\\
-            if (obj.Count > 0)
+            if (objQueue.Count > 0)
             {
                 //-----------------------------------------------------------------------------------------\\
-                if (obj.Peek() == null)
+                if (objQueue.Peek() == null)
                 {
-                    obj.Dequeue();
-                    CleanQueue(obj);
+                    objQueue.Dequeue();
+                    CleanQueue(objQueue);
                 }
                 else
                     return;

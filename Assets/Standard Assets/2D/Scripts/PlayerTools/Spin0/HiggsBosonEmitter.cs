@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 namespace UnityStandardAssets._2D
 {
     public class HiggsBosonEmitter : MonoBehaviour
@@ -16,7 +17,7 @@ namespace UnityStandardAssets._2D
         //=======================================================================================\\
         private void Awake()
         {
-            //calculate = gameObject.AddComponent(typeof(Calculations)) as Calculations;
+            //calculate = gameObject.AddComponent<Calculations>();
             calculate = GetComponent<Calculations>();
             name = "ElectroWeakSymmetryBreak";
             
@@ -26,11 +27,18 @@ namespace UnityStandardAssets._2D
         //=======================================================================================\\
         public void Use(Vector2 direction, Vector2 myPos, Vector2 cursorPosition)
         {
+
+
+
+
             GameObject _Projectile;
-            Quaternion _rotation = calculate.Rotation(direction.normalized.x, direction.normalized.y);
+            Quaternion _rotation = calculate.ObjectRotation(direction.normalized.x, direction.normalized.y);
+
 
             hbe_Instatiate = myPos + direction.normalized;
             _Projectile = (GameObject)Instantiate(Resources.Load("HiggsBoson"), hbe_Instatiate, _rotation);
+            
+
             _Projectile.GetComponent<Rigidbody2D>().AddForce(direction.normalized);
         }
         //=======================================================================================//
