@@ -31,6 +31,7 @@ namespace UnityStandardAssets._2D
             s0_Body = GetComponent<Rigidbody2D>();
             name = "HiggsBoson";
             s0_Body.mass = 40;
+            
             s0_velocity = calculate.WaveVelocity(s0_Body.mass);
 
             //-------------------------------------------------------------------------------------//
@@ -54,26 +55,34 @@ namespace UnityStandardAssets._2D
         //=======================================================================================\\
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            //-------------------------------------------------------------------------------------\\
-            switch (collision.gameObject.layer)
+            if (!collision.collider.isTrigger)
             {
                 //-------------------------------------------------------------------------------------\\
-                case 9://Enemy
-                    if (!collision.collider.isTrigger)//TODO add check for property that will dictate pull or push.
-                    {
-                        collision.gameObject.GetComponentInParent<Rigidbody2D>().AddForce(s0_Body.velocity.normalized * s0_PushForce, ForceMode2D.Impulse);
+                switch (collision.gameObject.layer)
+                {
+                    //-------------------------------------------------------------------------------------\\
+                    case 9://Enemy                        
+                           //collision.gameObject.GetComponentInParent<Rigidbody2D>().AddForce(s0_Body.velocity.normalized * s0_PushForce, ForceMode2D.Impulse);
+                        collision.gameObject.GetComponentInParent<Rigidbody2D>().mass += s0_Body.mass;
                         Destroy(gameObject);
-                    }
-                    break;
-                default:
-                    if (!collision.collider.isTrigger)
+                        break;
+                    default:
                         Destroy(gameObject);
-                    break;
-                    //-------------------------------------------------------------------------------------//
+                        break;
+                        //-------------------------------------------------------------------------------------//
+                }
+                //-------------------------------------------------------------------------------------//
             }
-            //-------------------------------------------------------------------------------------//
+
         }
         //=======================================================================================//
+
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+
+           
+        }
+
     }
 
 
