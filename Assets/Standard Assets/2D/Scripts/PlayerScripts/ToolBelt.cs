@@ -8,23 +8,27 @@ namespace UnityStandardAssets._2D
 {
     [RequireComponent(typeof(SpatialModulator))]
     [RequireComponent(typeof(HiggsBosonEmitter))]
+    [RequireComponent(typeof(PlayerStates))]
     ///Class acts as the access point for all player Tools. Accessors for all tools live here.
     public class ToolBelt : MonoBehaviour {
 
 
-        Calculations calculate; 
+         
         Strings names;
         #region Tool Instantiation
         string pt_ToolEquiped;
 
         SpatialModulator pt_SpatialModulator;
         HiggsBosonEmitter pt_HiggsBosonEmitter;
+        public Calculations pt_Calculations;
+        public PlayerStates pt_PlayerActivity;
 
         #endregion
 
         private void OnEnable()
         {
-            calculate = GetComponent<Calculations>();
+            pt_Calculations = GetComponent<Calculations>();
+            pt_PlayerActivity = GetComponent<PlayerStates>();
             names = GetComponent<Strings>();
         }
 
@@ -70,25 +74,29 @@ namespace UnityStandardAssets._2D
         {
             //-----------------------------------------------------------------------------------------\\
             Vector2 _myPos = playerBody.position;
-            Vector2 _direction = cursorPosition - _myPos;                                         
+            Vector2 _direction = cursorPosition - _myPos;
             //-----------------------------------------------------------------------------------------//
-
-            //-----------------------------------------------------------------------------------------\\
-            switch (pt_ToolEquiped)
-            {
+            
                 //-----------------------------------------------------------------------------------------\\
-                case "SpatialModulator": //black hole object, will be checking for tool equipt in future rather than object 
-                    pt_SpatialModulator.Use(_direction, _myPos, cursorPosition);
-                    break;                    
-                //-----------------------------------------------------------------------------------------//
+                switch (pt_ToolEquiped)
+                {
+                    //-----------------------------------------------------------------------------------------\\
+                    case "SpatialModulator": //black hole object, will be checking for tool equipt in future rather than object 
+                        pt_SpatialModulator.Use(_direction, _myPos, cursorPosition);
+                        
+                        break;
+                    //-----------------------------------------------------------------------------------------//
 
-                //-----------------------------------------------------------------------------------------\\
-                case "HiggsBosonEmitter": //solid projectile fire
-                    pt_HiggsBosonEmitter.Use(_direction, _myPos, cursorPosition);//creates the projectile                   
-                    break;
+                    //-----------------------------------------------------------------------------------------\\
+                    case "HiggsBosonEmitter": //solid projectile fire
+                        pt_HiggsBosonEmitter.Use(_direction, _myPos, cursorPosition);//creates the projectile        
+                        
+                        break;
+                    //-----------------------------------------------------------------------------------------//
+                }
                 //-----------------------------------------------------------------------------------------//
-            }
-            //-----------------------------------------------------------------------------------------//
+            
+
         }
         //=======================================================================================//
 

@@ -11,7 +11,7 @@ namespace UnityStandardAssets._2D
     { 
         private PlatformerCharacter2D hu_Character;
         private PlayerStates hu_States;
-        private bool hu_Jump, hu_Shoot, hu_2Shoot;
+        private bool hu_Jump, hu_LClick, hu_RClick;
         Vector2 hu_CursorPosition;
 
         private string hu_EquipTool;
@@ -35,8 +35,8 @@ namespace UnityStandardAssets._2D
             }
 
             hu_CursorPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            hu_Shoot = Input.GetMouseButtonDown(0);            
-            hu_2Shoot = Input.GetMouseButtonDown(1);
+            hu_LClick = Input.GetMouseButtonDown(0);            
+            hu_RClick = Input.GetMouseButtonDown(1);
 
             //this is the new implementation, must switch all listeners to PlayerState bools, will do with julie.
             hu_States.Mouse1 = Input.GetMouseButtonDown(0);
@@ -45,7 +45,7 @@ namespace UnityStandardAssets._2D
             if (Input.GetKeyDown(KeyCode.Alpha1)) { hu_EquipTool = "SpatialModulator"; Debug.Log("Spatial Modulator"); }
             if (Input.GetKeyDown(KeyCode.Alpha2)) { hu_EquipTool = "HiggsBosonEmitter"; Debug.Log("Higgs Boson Emitter"); }
 
-            hu_Character.Look(hu_Shoot, hu_2Shoot, hu_EquipTool, hu_CursorPosition);
+            hu_Character.Look(hu_LClick, hu_RClick, hu_EquipTool, hu_CursorPosition);
 
             if (Input.GetKeyDown(KeyCode.Escape))
             {
