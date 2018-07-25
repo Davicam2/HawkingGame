@@ -16,27 +16,28 @@ namespace UnityStandardAssets._2D
          
         Strings names;
         #region Tool Instantiation
-        string pt_ToolEquiped;
+        string tb_ToolEquiped;
 
-        SpatialModulator pt_SpatialModulator;
-        HiggsBosonEmitter pt_HiggsBosonEmitter;
-        public Calculations pt_Calculations;
-        public PlayerStates pt_PlayerActivity;
+        SpatialModulator tb_SpatialModulator;
+        HiggsBosonEmitter tb_HiggsBosonEmitter;
+        public Calculations tb_Calculations;
+        
+        bool tb_LClick, tb_RClick;
 
         #endregion
 
         private void OnEnable()
         {
-            pt_Calculations = GetComponent<Calculations>();
-            pt_PlayerActivity = GetComponent<PlayerStates>();
+            tb_Calculations = GetComponent<Calculations>();
+            
             names = GetComponent<Strings>();
         }
 
         //=======================================================================================\\
         private void Awake()
         {
-            pt_SpatialModulator = new SpatialModulator();//will have to change this if we want permanant changes possible.
-            pt_HiggsBosonEmitter = new HiggsBosonEmitter();
+            tb_SpatialModulator = new SpatialModulator();//will have to change this if we want permanant changes possible.
+            tb_HiggsBosonEmitter = new HiggsBosonEmitter();
             
         }
         //=======================================================================================//
@@ -51,13 +52,13 @@ namespace UnityStandardAssets._2D
             switch (tool)
             {
                 case "SpatialModulator":
-                    pt_ToolEquiped = tool;
+                    tb_ToolEquiped = tool;
                     break;
                 case "HiggsBosonEmitter":
-                    pt_ToolEquiped = tool;
+                    tb_ToolEquiped = tool;
                     break;
                 default:
-                    pt_ToolEquiped = "";
+                    tb_ToolEquiped = "";
                     break;
 
             }
@@ -78,18 +79,18 @@ namespace UnityStandardAssets._2D
             //-----------------------------------------------------------------------------------------//
             
                 //-----------------------------------------------------------------------------------------\\
-                switch (pt_ToolEquiped)
+                switch (tb_ToolEquiped)
                 {
                     //-----------------------------------------------------------------------------------------\\
                     case "SpatialModulator": //black hole object, will be checking for tool equipt in future rather than object 
-                        pt_SpatialModulator.Use(_direction, _myPos, cursorPosition);
+                        tb_SpatialModulator.Use(_direction, _myPos, cursorPosition);
                         
                         break;
                     //-----------------------------------------------------------------------------------------//
 
                     //-----------------------------------------------------------------------------------------\\
                     case "HiggsBosonEmitter": //solid projectile fire
-                        pt_HiggsBosonEmitter.Use(_direction, _myPos, cursorPosition);//creates the projectile        
+                        tb_HiggsBosonEmitter.Use(_direction, _myPos, cursorPosition);//creates the projectile        
                         
                         break;
                     //-----------------------------------------------------------------------------------------//
@@ -106,16 +107,29 @@ namespace UnityStandardAssets._2D
         public void SecondaryUse()
         {                                   
                 //-----------------------------------------------------------------------------------------\\
-                switch (pt_ToolEquiped)
+                switch (tb_ToolEquiped)
                 {
                     case "SpatialModulator":
-                    pt_SpatialModulator.SecondaryUse();                       
+                    tb_SpatialModulator.SecondaryUse();                       
                         break;
                 }
                 //-----------------------------------------------------------------------------------------//                        
         }
         //=======================================================================================//
-        
+
+        private void Update()
+        {
+            if (PlayerStates.Mouse1)//if left click is depressed, state is set in Platformer2DUserControl
+            {
+
+            }            
+            else if (PlayerStates.Mouse2)//if right click is depressed, state is set in Platformer2DUserControl
+            {
+
+            }
+        }
+
+
 
         //=======================================================================================\\
         public class GenericQueue<T>

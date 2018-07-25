@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 
+
 namespace UnityStandardAssets._2D
 {
     [RequireComponent(typeof(PlatformerCharacter2D))]
@@ -10,7 +11,7 @@ namespace UnityStandardAssets._2D
     public class Platformer2DUserControl : MonoBehaviour
     { 
         private PlatformerCharacter2D hu_Character;
-        private PlayerStates hu_States;
+       
         private bool hu_Jump, hu_LClick, hu_RClick;
         Vector2 hu_CursorPosition;
 
@@ -20,7 +21,7 @@ namespace UnityStandardAssets._2D
         private void Awake()
         {
             hu_Character = GetComponent<PlatformerCharacter2D>();
-            hu_States = GetComponent<PlayerStates>();
+            
             hu_EquipTool = "SpatialModulator";                        
         }
         //========================================================================================//
@@ -37,10 +38,11 @@ namespace UnityStandardAssets._2D
             hu_CursorPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             hu_LClick = Input.GetMouseButtonDown(0);            
             hu_RClick = Input.GetMouseButtonDown(1);
+            
 
             //this is the new implementation, must switch all listeners to PlayerState bools, will do with julie.
-            hu_States.Mouse1 = Input.GetMouseButtonDown(0);
-            hu_States.Mouse2 = Input.GetMouseButtonDown(1);
+            PlayerStates.Mouse1 = Input.GetMouseButton(0);
+            PlayerStates.Mouse2 = Input.GetMouseButton(1);
 
             if (Input.GetKeyDown(KeyCode.Alpha1)) { hu_EquipTool = "SpatialModulator"; Debug.Log("Spatial Modulator"); }
             if (Input.GetKeyDown(KeyCode.Alpha2)) { hu_EquipTool = "HiggsBosonEmitter"; Debug.Log("Higgs Boson Emitter"); }

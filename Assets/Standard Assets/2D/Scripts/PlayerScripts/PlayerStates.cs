@@ -6,18 +6,20 @@ using UnityEngine;
 
 namespace UnityStandardAssets._2D
 {
-    public class PlayerStates : MonoBehaviour
+    public static class PlayerStates 
     {
-        bool Mouse1Down;
-        bool Mouse2Down;
+        static bool Mouse1Down;
+        static bool Mouse2Down;
 
-        public bool Mouse1
+        
+
+        public static bool Mouse1
         {
             set { Mouse1Down = value; }
             get { return Mouse1Down; }
         }
 
-        public bool Mouse2
+        public static bool Mouse2
         {
             set { Mouse2Down = value; }
             get { return Mouse2Down; }
